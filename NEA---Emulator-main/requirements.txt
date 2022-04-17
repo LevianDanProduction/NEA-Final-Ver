@@ -1,0 +1,15 @@
+astroid==2.11.2
+colorama==0.4.4
+dill==0.3.4
+graphviz==0.19.1
+isort==5.10.1
+lazy-object-proxy==1.7.1
+mccabe==0.7.0
+numpy==1.22.3
+platformdirs==2.5.1
+pygame==2.1.2
+pylint==2.13.2
+pyzero==0.1
+simpleaudio==1.0.4
+tomli==2.0.1
+wrapt==1.14.0

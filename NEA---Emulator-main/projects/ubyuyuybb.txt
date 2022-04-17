@@ -1,0 +1,4 @@
+LD V2 50
+cool
+kid
+cc
