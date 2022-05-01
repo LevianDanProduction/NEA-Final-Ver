@@ -48,12 +48,15 @@ class CPU(): #will handle everything
         
     def emulate(self): #the cycle FDE and timer
         self.coderunner.feDeEx( self.ram, self.pc, self.opcode, self.I)
-        pass
+        #print("MEMMMMMMMORRRRRY")
+        #print(self.ram)
 
     def load(self,rom,bufferSize): #loads game/rom into memory
         self.buffer = 0
         for i in range(bufferSize-1):
-            self.memory[i + 512] = self.buffer[i]
+            self.ram[i + 512] = self.buffer[i]
+        #nt("MEMMMMMMMORRRRRY")
+        #print(self.ram)
 
     def draw(self,screen):
         """self.screenbuffer = screen.gridImage"""
@@ -84,6 +87,8 @@ class CPU(): #will handle everything
         #this will load rom bytes into main memory/RAM
         for i, byte_value in enumerate(rom_bytes):
             self.ram[CPU.START_ADDRESS + i] = byte_value
+        #print("MEMMMMMMMORRRRRY")
+        #print(self.ram)
  
     def set_arithmetic_flag(self):
         #this method will set the arithmetic flag to 1
@@ -96,17 +101,21 @@ class CPU(): #will handle everything
     def emulate_cycle(self):
         #this method will run one cpu cycle
         self.cw = self.fetch_word()
+        #if self.cw == 0:
+        #   self.cw = 224
  
         opcode_ = opdefiner.Opcode(self.cw)
         self.opcode = opfinder.find_operation(self.cw)
  
         self.move_to_next_instruction()
         self.opcode(opcode_, self)
+        #print("MEMMMMMMMORRRRRY")
+        #print(self.ram)
  
     def fetch_word(self):
         #this method will load the next two bytes of ram into one 16 bit value - the current opcode
         word = self.ram[self.pc] << 8 | self.ram[self.pc + 1]
- 
+        #print ("word: ", word)
         return word
  
     def update_timers(self):

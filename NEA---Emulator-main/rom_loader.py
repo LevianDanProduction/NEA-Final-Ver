@@ -14,6 +14,7 @@ def LoadBrowse():
         print(tempDir)
         with open(tempDir, "rb") as file:
             fileBytes = file.read()
+            print(fileBytes)
             print("Load Success")
             return fileBytes
     except:

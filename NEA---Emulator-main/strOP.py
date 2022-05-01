@@ -1,109 +1,117 @@
 
 def findOP(fw,fw2,fw3,fw4):
-    if fw == "#":
-        return "comment"
+    errorcode = "NOT CORRECT FORMAT"
+    try:
+        if fw == "#":
+            return "comment"
 
-    if fw == "CLS":
-        return "0x00E0"
-    elif fw == "RET":
-        return "0x00EE"
+        if fw == "CLS":
+            return "0x00E0"
+        elif fw == "RET":
+            return "0x00EE"
 
-    elif fw == "JP":
-        if fw2[0:1] == "V0":
-            return "Bnnn"
+        elif fw == "JP":
+            if fw2[0:1] == "V0":
+                return "Bnnn"
+            else:
+                return "1nnn"
+
+        elif fw == "CALL":
+            return "2nnn"
+
+        elif fw == "SE":
+            if fw3[0] == "V":
+                return "5xy0"
+            else:
+                return "3xkk"
+
+        elif fw == "SNE":
+            if fw3[0] == "V":
+                return "9xy0"
+            else:
+                return "4xkk"
+
+
+        elif fw == "OR":
+            return "8xy1"
+
+        elif fw == "XOR":
+            return "8xy3"
+
+        elif fw == "AND":
+            return "8xy2"
+
+        elif fw == "ADD":
+            if fw3[0] == "V":
+                return "7xkk"
+
+            elif fw2 == "I":
+                return "Fx1E"
+
+        elif fw == "SUB":
+            return "8xy5"
+
+        elif fw == "SHR":
+            return "8xy6"
+
+        elif fw == "SUBN":
+            return "8xy7"
+
+        elif fw == "SHL":
+            return "8xyE"
+
+        elif fw == "LD":
+            if fw2[0] == "I":
+                if len(fw2) > 1:
+                    return "Fx55"
+                else:    
+                    return "Annn"
+            if fw3[0] == "I":
+                if len(fw3) > 1:
+                    return "Fx65"
+            elif fw3 == "DT":
+                return "Fx07"
+            elif fw3 == "K":
+                return "Fx0A"
+            elif fw2[0:1] == "DT":
+                return "Fx15"
+            elif fw2[0:1] == "ST":
+                return "Fx18"
+            elif fw2[0] == "F":
+                return "Fx29"
+            elif fw2[0] == "B":
+                return "Fx33"
+            elif fw2[0] == "V":
+                return "6xkk"
+
+        elif fw == "RND":
+            return "Cxkk"
+
+        elif fw == "DRW":
+            return "Dxyn"
+
+        elif fw == "SKP":
+            return "Ex9E"
+
+        elif fw == "SKNP":
+            return "ExA1"
         else:
-            return "1nnn"
-
-    elif fw == "CALL":
-        return "2nnn"
-
-    elif fw == "SE":
-        if fw3[0] == "V":
-            return "5xy0"
-        else:
-            return "3xkk"
-
-    elif fw == "SNE":
-        if fw3[0] == "V":
-            return "9xy0"
-        else:
-            return "4xkk"
-
-
-    elif fw == "OR":
-        return "8xy1"
-
-    elif fw == "XOR":
-        return "8xy3"
-
-    elif fw == "AND":
-        return "8xy2"
-
-    elif fw == "ADD":
-        if fw3[0] == "V":
-            return "7xkk"
-
-        elif fw2 == "I":
-            return "Fx1E"
-
-    elif fw == "SUB":
-        return "8xy5"
-
-    elif fw == "SHR":
-        return "8xy6"
-
-    elif fw == "SUBN":
-        return "8xy7"
-
-    elif fw == "SHL":
-        return "8xyE"
-
-    elif fw == "LD":
-        if fw2[0] == "I":
-            if len(fw2) > 1:
-                return "Fx55"
-            else:    
-                return "Annn"
-        if fw3[0] == "I":
-            if len(fw3) > 1:
-                return "Fx65"
-        elif fw3 == "DT":
-            return "Fx07"
-        elif fw3 == "K":
-            return "Fx0A"
-        elif fw2[0:1] == "DT":
-            return "Fx15"
-        elif fw2[0:1] == "ST":
-            return "Fx18"
-        elif fw2[0] == "F":
-            return "Fx29"
-        elif fw2[0] == "B":
-            return "Fx33"
-        elif fw2[0] == "V":
-            return "6xkk"
-
-    elif fw == "RND":
-        return "Cxkk"
-
-    elif fw == "DRW":
-        return "Dxyn"
-
-    elif fw == "SKP":
-        return "Ex9E"
-
-    elif fw == "SKNP":
-        return "ExA1"
+            print(fw,fw2,fw3,fw4)
+    except:
+        print("Error - ", errorcode)
 
 def toBytes(word,line):
     if word == None:
-        return
+        return None
+    if word == "comment":
+        return None
     print(word)
     print(word[1:4])
 
     if word == "0x00E0":
-        return bin(int(0x00E0))
+        return int(0x00E0)
     elif word == "0x00E0":
-        return bin(int(0x00E0))
+        return int(0x00E0)
 
     p1 = word[0]
     print(p1)
@@ -134,6 +142,7 @@ def toBytes(word,line):
         l3 = 0
         l4 = 0
         p2 = lineword
+        print(p2)
         p2 = bin(int(p2))
         p3 = ""
         p4 = ""
@@ -144,6 +153,7 @@ def toBytes(word,line):
         l3 = 4
         l4 = 4
         p2 = lineword[1:-1]
+        print ("part2")
         p2 = bin(int(p2))
         lineword = line[2]
         p3 = lineword
@@ -223,19 +233,37 @@ def toBytes(word,line):
             print("lenofshift:" , (lengthOfData - len(item[2:])))
             item = listofbin[(lengthOfData - len(item[2:]))] + (item[2:])
             print(item)
+        else:
+            item = item [2:]
             #item = bin(item)
         print (item)
         finalStrForm = finalStrForm + (item)
 
         print ("final add", finalList) 
+        print(finalStrForm, "strver")
+    finalList2 = []
 
     finalValue = finalStrForm
     finalValue = int(finalValue,2)
     finalValue = hex(finalValue)
-    print(finalValue , "  final")
-    finalValue = finalValue.encode()
-    print(finalValue , "  final")
-    return finalValue
+    finalValue = finalValue[2:]
+    final1 = finalValue[:2]
+    final2 = finalValue[2:]
+    print("should be ", final1)
+
+    final1 = "0x" + final1
+    final1 = int(final1,16)
+    print(final1)
+
+    final2 = "0x" + final2
+    final2 = int(final2,16)
+    print(final2)
+    
+    finalList2.append(final1)
+    finalList2.append(final2)
+
+    print(finalList2)
+    return finalList2
 
 
 

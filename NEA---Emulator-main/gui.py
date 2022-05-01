@@ -35,6 +35,7 @@ def relative_to_assets(path: str) -> Path:
 
 def startTemp():
     print("Start Pseudo Interpreter")
+    exportStart()
     f = open("settings.txt", "w")
     read = f.write("0")
     f.close()
@@ -71,11 +72,12 @@ def openFile():
             print(messagebox.showerror("Error", "Couldn't load file. Please try again."))
 
 def exportFile():
+    AssemblerGui.clear()
     currdir = os.getcwd()
     currdir = currdir + "\\projects"
-    tempdir = filedialog.asksaveasfilename(initialdir=currdir, defaultextension='.bin' ,title='Please export the file', filetypes=[("bin Files", "*.ch8")])
+    tempdir = filedialog.asksaveasfilename(initialdir=currdir, defaultextension='.ch8' ,title='Please export the file', filetypes=[(".ch8 Files", "*.ch8")])
     print(tempdir)
-    f = open(tempdir, "bw")
+    f = open(tempdir, "wb")
     f2 = open("assemble.txt", "w")
     f2.write(editor.get(1.0, END))
     f2.close()
@@ -89,15 +91,35 @@ def exportFile():
     savelist = AssemblerGui.binDump()
     print(savelist)
     print("1")
-    for item in savelist:
-        if item == None:
-            continue
-        f.write(item)
+    item = bytes(savelist)
+    f.write(item)
+    print("written", item)
     f.close()
     messagebox.showinfo("Done","File Successfully exported")
     print("Done!")
 
+def exportStart():
+    AssemblerGui.clear()
+    f = open("temp.ch8", "wb")
+    f2 = open("assemble.txt", "w")
+    f2.write(editor.get(1.0, END))
+    f2.close()
+    f2 = open("assemble.txt", "r")
+    AssemblerGui.splitTextField(f2.read().splitlines())
+    print("c")
+    f2.close()
+    print(AssemblerGui.currentCode)
+    AssemblerGui.convertIntoBin()
 
+    savelist = AssemblerGui.binDump()
+    print(savelist)
+    print("1")
+    item = bytes(savelist)
+    f.write(item)
+    print("written", item)
+    f.close()
+    messagebox.showinfo("Done","No problems detected")
+    print("Done!")
 
 
 def quitWin():
@@ -163,7 +185,7 @@ canvas.create_rectangle(
     fill="#ADA9C4",
     outline="")
 
-
+"""""
 button_image_1 = PhotoImage(
     file=relative_to_assets("button_1.png"))
 button_1 = Button(
@@ -195,7 +217,7 @@ button_2.place(
     width=114.0,
     height=48.0
 )
-
+"""
 button_image_3 = PhotoImage(
     file=relative_to_assets("button_3.png"))
 button_3 = Button(
@@ -237,7 +259,7 @@ file.add_command(label="Export",command=lambda:exportFile())
 file.add_separator()  
 file.add_command(label="Exit", command=lambda:quitWin())  
 menubar.add_cascade(label="File", menu=file)  
-
+"""""
 edit = Menu(menubar, tearoff=0)  
 edit.add_command(label="Undo")  
 edit.add_separator()     
@@ -245,6 +267,7 @@ edit.add_command(label="Cut")
 edit.add_command(label="Copy")  
 edit.add_command(label="Paste")  
 menubar.add_cascade(label="Edit", menu=edit)  
+"""
 help = Menu(menubar, tearoff=0)  
 help.add_command(label="About", command=lambda:about())
 help.add_command(label="Controls", command=lambda:info())

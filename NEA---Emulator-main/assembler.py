@@ -35,7 +35,11 @@ class Assembler():
             self.convertedLines.append(strOP.findOP(self.currentLine[0],self.currentLine[1],self.currentLine[2],self.currentLine[3]))
             print(self.convertedLines[-1])
             print("----")
-            self.convertedCode.append(strOP.toBytes(self.convertedLines[-1],self.currentLine))
+            listforconvert = strOP.toBytes(self.convertedLines[-1],self.currentLine)
+            if listforconvert == None:
+                continue
+            for x in (listforconvert):    
+                self.convertedCode.append(x)
             print(self.convertedCode)
 
 

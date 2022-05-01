@@ -29,6 +29,7 @@ def mainLoad():
         rombyteform = rom_loader.LoadBrowse()
     else:
         rombyteform = rom_loader.LoadTemp("temp")
+    print(rombyteform)
     chip.load_rom(rombyteform) # loads up game
     clock = pygame.time.Clock() #times everything 
     pygame.init()
